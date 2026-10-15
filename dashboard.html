@@ -44,28 +44,45 @@
     </main>
 
     <script>
-        // Hamburger Menu Toggle
-        const mobileMenu = document.getElementById('mobile-menu');
-        const navLinks = document.getElementById('nav-links');
-        if (mobileMenu) {
-            mobileMenu.addEventListener('click', () => {
-                navLinks.classList.toggle('active');
-            });
+        // Login guard: bina login ke dashboard nahi khulega
+        if (localStorage.getItem('nutriLoggedIn') !== 'true') {
+            window.location.replace('login.html');
         }
 
-        // Display user name dynamically if available
         const userName = localStorage.getItem('nutriUserName');
         if (userName) {
             document.getElementById('welcomeTitle').innerText = `Welcome, ${userName}!`;
         }
 
-        // Logout functionality
-        const logoutBtn = document.getElementById('logoutBtn');
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', () => {
-                // Optional: clear session data if needed
+        // Logout: session hatao (account data safe rehta hai)
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            localStorage.removeItem('nutriLoggedIn');
+        });
+    </script>
+    <script>
+        // Mobile hamburger menu
+        (function () {
+            var toggle = document.getElementById('mobile-menu');
+            var links = document.getElementById('nav-links');
+            if (!toggle || !links) return;
+            toggle.addEventListener('click', function (e) {
+                e.stopPropagation();
+                links.classList.toggle('active');
+                toggle.classList.toggle('open');
             });
-        }
+            links.querySelectorAll('a').forEach(function (a) {
+                a.addEventListener('click', function () {
+                    links.classList.remove('active');
+                    toggle.classList.remove('open');
+                });
+            });
+            document.addEventListener('click', function (e) {
+                if (!links.contains(e.target) && !toggle.contains(e.target)) {
+                    links.classList.remove('active');
+                    toggle.classList.remove('open');
+                }
+            });
+        })();
     </script>
 </body>
 </html>

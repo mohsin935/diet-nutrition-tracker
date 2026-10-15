@@ -31,6 +31,9 @@
         </p>
     </div>
     <script>
+        // Already logged in? Seedha dashboard
+        if (localStorage.getItem('nutriLoggedIn') === 'true') { window.location.href = 'dashboard.html'; }
+
         // Login Logic
         const loginForm = document.getElementById('loginForm');
         if (loginForm) {
@@ -42,11 +45,12 @@
                 const savedEmail = localStorage.getItem('nutriUserEmail');
                 const savedPassword = localStorage.getItem('nutriUserPassword');
 
-                // Agar pehle se koi account nahi bana hua, toh default demo user maan lo ya alert do
+                // Agar account nahi bana hua, to demo user (admin@gmail.com / 123456) allow hai
                 if (!savedEmail) {
                     // Default dummy user for testing
                     if (emailInput === "admin@gmail.com" && passwordInput === "123456") {
                         localStorage.setItem('nutriUserName', 'Admin User');
+                        localStorage.setItem('nutriLoggedIn', 'true');
                         window.location.href = 'dashboard.html';
                         return;
                     }
@@ -56,7 +60,7 @@
                 }
 
                 if (emailInput === savedEmail && passwordInput === savedPassword) {
-                    alert('Login successful! Welcome to your dashboard.');
+                    localStorage.setItem('nutriLoggedIn', 'true');
                     window.location.href = 'dashboard.html';
                 } else {
                     alert('Invalid email or password. Please try again.');
