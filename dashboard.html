@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Diet Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">Nutri<span>Track</span></div>
+        
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <nav class="nav-links" id="nav-links">
+            <a href="index.html">Home</a>
+            <a href="dashboard.html" class="active">Dashboard</a>
+            <a href="login.html" id="logoutBtn" style="background: #ef4444; color: var(--white); padding: 6px 18px; border-radius: 20px; font-weight: 600;">Logout</a>
+        </nav>
+    </header>
+
+    <main style="padding: 130px 8% 50px 8%;">
+        <h1 style="font-size: 36px; font-weight: 800;" id="welcomeTitle">Welcome to Your Dashboard</h1>
+        <p style="color: var(--text-muted); margin-top: 5px; font-size: 18px;">Here is your daily nutrition summary:</p>
+
+        <div style="display: flex; gap: 25px; margin-top: 35px; flex-wrap: wrap;">
+            <div style="background: var(--white); padding: 30px; border-radius: 20px; flex: 1; min-width: 260px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid #f1f5f9;">
+                <h3 style="font-size: 18px; color: var(--text-muted); margin-bottom: 12px;">Calories Consumed</h3>
+                <p style="font-size: 28px; font-weight: 800;"><strong>1,200</strong> <span style="font-size: 16px; font-weight: normal; color: var(--text-muted);">/ 2,000 kcal</span></p>
+            </div>
+            <div style="background: var(--white); padding: 30px; border-radius: 20px; flex: 1; min-width: 260px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid #f1f5f9;">
+                <h3 style="font-size: 18px; color: var(--text-muted); margin-bottom: 12px;">Water Intake</h3>
+                <p style="font-size: 28px; font-weight: 800;"><strong>5</strong> <span style="font-size: 16px; font-weight: normal; color: var(--text-muted);">/ 8 Glasses</span></p>
+            </div>
+            <div style="background: var(--white); padding: 30px; border-radius: 20px; flex: 1; min-width: 260px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid #f1f5f9;">
+                <h3 style="font-size: 18px; color: var(--text-muted); margin-bottom: 12px;">Meals Logged</h3>
+                <p style="font-size: 28px; font-weight: 800;"><strong>2</strong> <span style="font-size: 16px; font-weight: normal; color: var(--text-muted);">Meals Today</span></p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Hamburger Menu Toggle
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.getElementById('nav-links');
+        if (mobileMenu) {
+            mobileMenu.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+        }
+
+        // Display user name dynamically if available
+        const userName = localStorage.getItem('nutriUserName');
+        if (userName) {
+            document.getElementById('welcomeTitle').innerText = `Welcome, ${userName}!`;
+        }
+
+        // Logout functionality
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                // Optional: clear session data if needed
+            });
+        }
+    </script>
+</body>
+</html>

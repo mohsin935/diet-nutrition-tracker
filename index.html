@@ -9,19 +9,51 @@
 <body>
     <header class="navbar">
         <div class="logo">Nutri<span>Track</span></div>
-        <nav>
-            <a href="#home">Home</a>
+        
+        <!-- Hamburger Menu Icon -->
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <nav class="nav-links" id="nav-links">
+            <a href="index.html" class="active">Home</a>
             <a href="#about">About</a>
             <a href="#contact">Contact</a>
+            <a href="login.html" style="background: var(--primary-color); color: var(--white); padding: 8px 20px; border-radius: 20px; font-weight: 600;">Login</a>
         </nav>
     </header>
 
     <!-- Hero Section -->
     <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>Master Your Diet,<br> Elevate Your Health.</h1>
-            <p>A smart and simple way to track your daily nutrition, monitor your calories, and achieve your fitness goals.</p>
-            <button id="getStartedBtn" class="cta-button">Start Tracking</button>
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Master Your Diet,<br> Elevate Your Health.</h1>
+                <p>A smart and simple way to track your daily nutrition, monitor your calories, and achieve your fitness goals effortlessly without any complex setups.</p>
+                <a href="login.html" class="cta-button">Start Tracking</a>
+            </div>
+            <div class="hero-image">
+                <div class="hero-card-visual">
+                    <h3>Sample Meal Plan <span style="font-size: 13px; color: var(--primary-color); background: #f0fdf4; padding: 4px 10px; border-radius: 20px;">Preview</span></h3>
+                    <div class="stat-row">
+                        <span>Breakfast (Oats & Eggs)</span>
+                        <span>420 kcal</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>Lunch (Chicken & Rice)</span>
+                        <span>650 kcal</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>Water Goal</span>
+                        <span>2.0 / 3.0 Liters</span>
+                    </div>
+                    <div class="stat-row" style="border-bottom: none; font-weight: bold;">
+                        <span>System Status</span>
+                        <span style="color: var(--primary-color);">Ready to Track ✨</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -34,7 +66,6 @@
         <div class="features-grid">
             <div class="feature-card">
                 <div class="icon">
-                    <!-- Apple/Diet Icon -->
                     <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z"/><path d="M10 2c1 .5 2 2 2 5"/></svg>
                 </div>
                 <h3>Log Meals Easily</h3>
@@ -42,7 +73,6 @@
             </div>
             <div class="feature-card">
                 <div class="icon">
-                    <!-- Chart/Progress Icon -->
                     <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
                 </div>
                 <h3>Track Progress</h3>
@@ -50,7 +80,6 @@
             </div>
             <div class="feature-card">
                 <div class="icon">
-                    <!-- Target/Goal Icon -->
                     <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
                 </div>
                 <h3>Set Custom Goals</h3>
@@ -59,18 +88,26 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
+    <!-- Contact / Action Section -->
     <section id="contact" class="contact-section">
         <div class="contact-box">
             <h2>Ready to Transform Your Lifestyle?</h2>
-            <p>Join NutriTrack today and take full control of your fitness journey.</p>
-            <div class="contact-form">
-                <input type="email" placeholder="Enter your email address" required>
-                <button type="button" id="subscribeBtn" class="cta-button submit-btn">Subscribe Now</button>
-            </div>
+            <p>Take full control of your fitness journey and manage your daily meals with NutriTrack.</p>
+            <a href="login.html" class="cta-button" style="background: var(--text-main); color: var(--white);">Get Started Now</a>
         </div>
     </section>
-          <!-- testing commit again -->
+
+    <!-- JavaScript for Mobile Menu Toggle -->
+    <script>
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.getElementById('nav-links');
+
+        if (mobileMenu) {
+            mobileMenu.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+        }
+    </script>
     <script src="script.js"></script>
 </body>
 </html>

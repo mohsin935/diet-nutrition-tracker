@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - NutriTrack</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body style="background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+
+    <div style="background: var(--white); padding: 40px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.08); width: 100%; max-width: 420px; border: 1px solid rgba(34, 197, 94, 0.2);">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h2 style="font-size: 28px; font-weight: 800; color: var(--text-main);">Welcome Back</h2>
+            <p style="color: var(--text-muted); font-size: 15px; margin-top: 5px;">Login to access your NutriTrack dashboard</p>
+        </div>
+
+        <form id="loginForm" style="display: flex; flex-direction: column; gap: 20px;">
+            <div>
+                <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--text-main);">Email Address</label>
+                <input type="email" id="loginEmail" placeholder="Enter your email" required style="width: 100%; padding: 14px 18px; border-radius: 12px; border: 1px solid #cbd5e1; outline: none; font-size: 15px;">
+            </div>
+            <div>
+                <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--text-main);">Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter your password" required style="width: 100%; padding: 14px 18px; border-radius: 12px; border: 1px solid #cbd5e1; outline: none; font-size: 15px;">
+            </div>
+            <button type="submit" class="cta-button" style="width: 100%; margin-top: 10px; text-align: center;">Login</button>
+        </form>
+
+        <p style="text-align: center; margin-top: 25px; font-size: 15px; color: var(--text-muted);">
+            Don't have an account? <a href="signup.html" style="color: var(--primary-color); font-weight: 600; text-decoration: none;">Sign Up</a>
+        </p>
+    </div>
+    <script>
+        // Login Logic
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const emailInput = document.getElementById('loginEmail').value;
+                const passwordInput = document.getElementById('loginPassword').value;
+
+                const savedEmail = localStorage.getItem('nutriUserEmail');
+                const savedPassword = localStorage.getItem('nutriUserPassword');
+
+                // Agar pehle se koi account nahi bana hua, toh default demo user maan lo ya alert do
+                if (!savedEmail) {
+                    // Default dummy user for testing
+                    if (emailInput === "admin@gmail.com" && passwordInput === "123456") {
+                        localStorage.setItem('nutriUserName', 'Admin User');
+                        window.location.href = 'dashboard.html';
+                        return;
+                    }
+                    alert('No account found! Please sign up first.');
+                    window.location.href = 'signup.html';
+                    return;
+                }
+
+                if (emailInput === savedEmail && passwordInput === savedPassword) {
+                    alert('Login successful! Welcome to your dashboard.');
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert('Invalid email or password. Please try again.');
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
