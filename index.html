@@ -10,7 +10,6 @@
     <header class="navbar">
         <div class="logo">Nutri<span>Track</span></div>
         
-        <!-- Hamburger Menu Icon -->
         <div class="menu-toggle" id="mobile-menu">
             <span></span>
             <span></span>
@@ -19,9 +18,8 @@
 
         <nav class="nav-links" id="nav-links">
             <a href="index.html" class="active">Home</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
-            <a href="login.html" style="background: var(--primary-color); color: var(--white); padding: 8px 20px; border-radius: 20px; font-weight: 600;">Login</a>
+            <a href="guide.html">Guide</a>
+            <a href="login.html" style="background: var(--primary-color); color: var(--white); padding: 8px 20px; border-radius: 20px; font-weight: 600; text-decoration: none;">Login</a>
         </nav>
     </header>
 
@@ -35,7 +33,10 @@
             </div>
             <div class="hero-image">
                 <div class="hero-card-visual">
-                    <h3>Sample Meal Plan <span style="font-size: 13px; color: var(--primary-color); background: #f0fdf4; padding: 4px 10px; border-radius: 20px;">Preview</span></h3>
+                    <h3 style="display: flex; justify-content: space-between; align-items: center;">
+                        Sample Meal Plan
+                        <span style="font-size: 13px; color: var(--primary-color); background: #f0fdf4; padding: 4px 10px; border-radius: 20px;">Preview</span>
+                    </h3>
                     <div class="stat-row">
                         <span>Breakfast (Oats & Eggs)</span>
                         <span>420 kcal</span>
@@ -50,14 +51,17 @@
                     </div>
                     <div class="stat-row" style="border-bottom: none; font-weight: bold;">
                         <span>System Status</span>
-                        <span style="color: var(--primary-color);">Ready to Track ✨</span>
+                        <span style="color: var(--primary-color); display: flex; align-items: center; gap: 6px;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            Ready to Track
+                        </span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- About / Features Section -->
+    <!-- Features Section -->
     <section id="about" class="features-section">
         <div class="section-header">
             <h2>Why Use NutriTrack?</h2>
@@ -88,7 +92,7 @@
         </div>
     </section>
 
-    <!-- Contact / Action Section -->
+    <!-- Contact Section -->
     <section id="contact" class="contact-section">
         <div class="contact-box">
             <h2>Ready to Transform Your Lifestyle?</h2>
@@ -96,8 +100,8 @@
             <a href="login.html" class="cta-button" style="background: var(--text-main); color: var(--white);">Get Started Now</a>
         </div>
     </section>
+    
     <script>
-        // Mobile hamburger menu
         (function () {
             var toggle = document.getElementById('mobile-menu');
             var links = document.getElementById('nav-links');
@@ -106,12 +110,6 @@
                 e.stopPropagation();
                 links.classList.toggle('active');
                 toggle.classList.toggle('open');
-            });
-            links.querySelectorAll('a').forEach(function (a) {
-                a.addEventListener('click', function () {
-                    links.classList.remove('active');
-                    toggle.classList.remove('open');
-                });
             });
             document.addEventListener('click', function (e) {
                 if (!links.contains(e.target) && !toggle.contains(e.target)) {

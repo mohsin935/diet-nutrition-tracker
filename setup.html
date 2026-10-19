@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Your Goals - NutriTrack</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body style="background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%); min-height: 100vh; display: flex; flex-direction: column;">
+
+    <!-- Proper Navbar Added -->
+    <header class="navbar">
+        <div class="logo">Nutri<span>Track</span></div>
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span><span></span><span></span>
+        </div>
+        <nav class="nav-links" id="nav-links">
+            <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="guide.html">Guide</a>
+            <a href="login.html" id="logoutBtn" style="background: #ef4444; color: var(--white); padding: 6px 18px; border-radius: 20px; font-weight: 600; text-decoration: none;">Logout</a>
+        </nav>
+    </header>
+
+    <main style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 130px 20px 40px 20px;">
+        <div style="background: var(--white); padding: 40px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.08); width: 100%; max-width: 450px; border: 1px solid rgba(34, 197, 94, 0.2);">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h2 style="font-size: 28px; font-weight: 800; color: var(--text-main);">Set Your Goals</h2>
+                <p style="color: var(--text-muted); font-size: 15px; margin-top: 5px;">Personalize your tracking experience</p>
+                
+                <p style="text-align: center; margin-top: 15px; font-size: 14px;">
+                    <a href="guide.html" target="_blank" style="color: var(--primary-color); font-weight: 600; text-decoration: underline;">Need help calculating your targets? Read our Guide!</a>
+                </p>
+            </div>
+
+            <form id="setupForm" style="display: flex; flex-direction: column; gap: 18px;">
+                <div>
+                    <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(--text-main);">Daily Calorie Goal (kcal)</label>
+                    <input type="number" id="targetCalories" placeholder="e.g., 2000" required style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #cbd5e1; outline: none; font-size: 15px;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(--text-main);">Daily Protein Goal (g)</label>
+                    <input type="number" id="targetProtein" placeholder="e.g., 60" required style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #cbd5e1; outline: none; font-size: 15px;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(--text-main);">Daily Water Goal (Glasses)</label>
+                    <input type="number" id="targetWater" placeholder="e.g., 8" required style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #cbd5e1; outline: none; font-size: 15px;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(--text-main);">Current Weight (kg)</label>
+                    <input type="number" id="currentWeight" placeholder="e.g., 70" required style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #cbd5e1; outline: none; font-size: 15px;">
+                </div>
+                <button type="submit" class="cta-button" style="width: 100%; margin-top: 5px; text-align: center;">Save Goals & Go to Dashboard</button>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        if (localStorage.getItem('nutriLoggedIn') !== 'true') { window.location.replace('login.html'); }
+
+        document.getElementById('targetCalories').value = localStorage.getItem('nutriCaloriesTarget') || '';
+        document.getElementById('targetProtein').value = localStorage.getItem('nutriProteinTarget') || '';
+        document.getElementById('targetWater').value = localStorage.getItem('nutriWaterTarget') || '';
+        document.getElementById('currentWeight').value = localStorage.getItem('nutriWeight') || '';
+
+        const setupForm = document.getElementById('setupForm');
+        if (setupForm) {
+            setupForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                localStorage.setItem('nutriCaloriesTarget', document.getElementById('targetCalories').value);
+                localStorage.setItem('nutriProteinTarget', document.getElementById('targetProtein').value); 
+                localStorage.setItem('nutriWaterTarget', document.getElementById('targetWater').value);
+                localStorage.setItem('nutriWeight', document.getElementById('currentWeight').value);
+                localStorage.setItem('nutriSetupComplete', 'true');
+                window.location.href = 'dashboard.html';
+            });
+        }
+        
+        document.getElementById('logoutBtn').addEventListener('click', () => { localStorage.removeItem('nutriLoggedIn'); });
+    </script>
+    <script>
+        (function () {
+            var toggle = document.getElementById('mobile-menu');
+            var links = document.getElementById('nav-links');
+            if (!toggle || !links) return;
+            toggle.addEventListener('click', function (e) {
+                e.stopPropagation(); links.classList.toggle('active'); toggle.classList.toggle('open');
+            });
+            document.addEventListener('click', function (e) {
+                if (!links.contains(e.target) && !toggle.contains(e.target)) {
+                    links.classList.remove('active'); toggle.classList.remove('open');
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

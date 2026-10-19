@@ -31,8 +31,14 @@
         </p>
     </div>
     <script>
-        // Already logged in? Seedha dashboard
-        if (localStorage.getItem('nutriLoggedIn') === 'true') { window.location.href = 'dashboard.html'; }
+        // Already logged in check: Agar setup complete nahi hai toh setup.html par bhejo
+        if (localStorage.getItem('nutriLoggedIn') === 'true') {
+            if (localStorage.getItem('nutriSetupComplete') === 'true') {
+                window.location.href = 'dashboard.html';
+            } else {
+                window.location.href = 'setup.html';
+            }
+        }
 
         // Login Logic
         const loginForm = document.getElementById('loginForm');
@@ -45,13 +51,17 @@
                 const savedEmail = localStorage.getItem('nutriUserEmail');
                 const savedPassword = localStorage.getItem('nutriUserPassword');
 
-                // Agar account nahi bana hua, to demo user (admin@gmail.com / 123456) allow hai
+                // Admin bypass logic
                 if (!savedEmail) {
-                    // Default dummy user for testing
                     if (emailInput === "admin@gmail.com" && passwordInput === "123456") {
                         localStorage.setItem('nutriUserName', 'Admin User');
                         localStorage.setItem('nutriLoggedIn', 'true');
-                        window.location.href = 'dashboard.html';
+                        
+                        if (localStorage.getItem('nutriSetupComplete') === 'true') {
+                            window.location.href = 'dashboard.html';
+                        } else {
+                            window.location.href = 'setup.html';
+                        }
                         return;
                     }
                     alert('No account found! Please sign up first.');
@@ -61,7 +71,12 @@
 
                 if (emailInput === savedEmail && passwordInput === savedPassword) {
                     localStorage.setItem('nutriLoggedIn', 'true');
-                    window.location.href = 'dashboard.html';
+                    
+                    if (localStorage.getItem('nutriSetupComplete') === 'true') {
+                        window.location.href = 'dashboard.html';
+                    } else {
+                        window.location.href = 'setup.html';
+                    }
                 } else {
                     alert('Invalid email or password. Please try again.');
                 }
