@@ -10,16 +10,9 @@
     <header class="navbar">
         <div class="logo">Nutri<span>Track</span></div>
         
-        <div class="menu-toggle" id="mobile-menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-
-        <nav class="nav-links" id="nav-links">
-            <a href="index.html" class="active">Home</a>
-            <a href="guide.html">Guide</a>
-            <a href="login.html" style="background: var(--primary-color); color: var(--white); padding: 8px 20px; border-radius: 20px; font-weight: 600; text-decoration: none;">Login</a>
+        <!-- Navbar class removed so it stays perfectly aligned with the logo on all screens -->
+        <nav style="display: flex; align-items: center;">
+            <a href="login.html" style="background: var(--primary-color); color: var(--white); padding: 8px 20px; border-radius: 20px; font-weight: 600; text-decoration: none; font-size: 15px; transition: 0.3s;">Login</a>
         </nav>
     </header>
 
@@ -100,24 +93,5 @@
             <a href="login.html" class="cta-button" style="background: var(--text-main); color: var(--white);">Get Started Now</a>
         </div>
     </section>
-    
-    <script>
-        (function () {
-            var toggle = document.getElementById('mobile-menu');
-            var links = document.getElementById('nav-links');
-            if (!toggle || !links) return;
-            toggle.addEventListener('click', function (e) {
-                e.stopPropagation();
-                links.classList.toggle('active');
-                toggle.classList.toggle('open');
-            });
-            document.addEventListener('click', function (e) {
-                if (!links.contains(e.target) && !toggle.contains(e.target)) {
-                    links.classList.remove('active');
-                    toggle.classList.remove('open');
-                }
-            });
-        })();
-    </script>
 </body>
 </html>
