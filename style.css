@@ -346,61 +346,51 @@ section[id] {
 .menu-toggle.open span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
 .menu-toggle.open span:nth-child(2) { opacity: 0; }
 .menu-toggle.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
-/* Modern & Sleek Footer Design */
+/* Modern Sleek Footer */
 .site-footer {
-    background: #f8fafc;
-    border-top: 1px solid #e2e8f0;
-    padding: 50px 8% 30px 8%;
+    background: #0f172a;
+    color: #94a3b8;
+    padding: 35px 8%;
     margin-top: 80px;
+    border-top: 1px solid #1e293b;
     font-family: inherit;
 }
-.footer-wrapper {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 30px;
+.footer-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding-bottom: 40px;
-    border-bottom: 1px solid #cbd5e1;
-}
-.footer-box h3 {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--text-main);
-    margin-bottom: 15px;
-}
-.footer-box p {
-    color: var(--text-muted);
-    font-size: 14px;
-    line-height: 1.6;
-    margin-bottom: 15px;
-}
-.footer-box ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-.footer-box ul li {
-    margin-bottom: 10px;
-}
-.footer-box ul li a {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 14px;
-    transition: 0.3s;
-}
-.footer-box ul li a:hover {
-    color: var(--primary-color);
-    padding-left: 4px;
-}
-.footer-bottom-row {
-    max-width: 1200px;
-    margin: 25px auto 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 15px;
-    color: var(--text-muted);
-    font-size: 13px;
+    gap: 20px;
+}
+.footer-logo {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    text-decoration: none;
+}
+.footer-logo span {
+    color: var(--primary-color);
+}
+.footer-links-list {
+    display: flex;
+    gap: 25px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-wrap: wrap;
+}
+.footer-links-list a {
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+.footer-links-list a:hover {
+    color: #ffffff;
+}
+.footer-credit {
+    font-size: 14px;
+    color: #cbd5e1;
 }
