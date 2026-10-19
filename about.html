@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - NutriTrack</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .about-card {
+            background: var(--white);
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            border: 1px solid #f1f5f9;
+            margin-bottom: 30px;
+        }
+        .about-card h2 {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 15px;
+        }
+        .about-card p {
+            color: var(--text-muted);
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">Nutri<span>Track</span></div>
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span><span></span><span></span>
+        </div>
+        <nav class="nav-links" id="nav-links">
+            <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="guide.html">Guide</a>
+            <a href="about.html" class="active" style="color: var(--primary-color);">About</a>
+            <a href="login.html" id="logoutBtn" style="background: #ef4444; color: var(--white); padding: 6px 18px; border-radius: 20px; font-weight: 600; text-decoration: none;">Logout</a>
+        </nav>
+    </header>
+
+    <main style="padding: 130px 8% 80px 8%; max-width: 1000px; margin: 0 auto;">
+        <div style="text-align: center; margin-bottom: 50px;">
+            <h1 style="font-size: 38px; font-weight: 800; color: var(--text-main);">About NutriTrack</h1>
+            <p style="color: var(--text-muted); font-size: 18px; margin-top: 10px;">
+                Empowering individuals to take control of their health through smart, minimalist nutrition tracking.
+            </p>
+        </div>
+
+        <div class="about-card">
+            <h2>Project Overview</h2>
+            <p>
+                NutriTrack is a modern web-based diet and nutrition management application designed to simplify daily calorie, protein, and water tracking. Built as an academic web engineering project, it prioritizes a clean user interface, responsiveness across all devices, and efficient client-side data persistence using local storage.
+            </p>
+        </div>
+
+        <div class="about-card">
+            <h2>Core Features</h2>
+            <p><strong>1. Personalized Goal Setting:</strong> Tailor your daily calorie, protein, and water targets based on your body weight and specific fitness objectives.</p>
+            <p><strong>2. Smart Meal Logging:</strong> Quickly log common regional and global food items or input custom nutritional values.</p>
+            <p><strong>3. Hydration Management:</strong> Track daily water intake effortlessly with interactive progress counters.</p>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="dashboard.html" class="cta-button">Back to Dashboard</a>
+        </div>
+    </main>
+
+    <script>
+        if (localStorage.getItem('nutriLoggedIn') !== 'true') { window.location.replace('login.html'); }
+        document.getElementById('logoutBtn').addEventListener('click', () => { localStorage.removeItem('nutriLoggedIn'); });
+    </script>
+    <script>
+        (function () {
+            var toggle = document.getElementById('mobile-menu');
+            var links = document.getElementById('nav-links');
+            if (!toggle || !links) return;
+            toggle.addEventListener('click', function (e) {
+                e.stopPropagation(); links.classList.toggle('active'); toggle.classList.toggle('open');
+            });
+            document.addEventListener('click', function (e) {
+                if (!links.contains(e.target) && !toggle.contains(e.target)) {
+                    links.classList.remove('active'); toggle.classList.remove('open');
+                }
+            });
+        })();
+<!-- Modern Footer -->
+    <footer class="site-footer">
+        <div class="footer-wrapper">
+            <div class="footer-box">
+                <h3 style="color: var(--text-main);">Nutri<span style="color: var(--primary-color);">Track</span></h3>
+                <p>A high-performance academic web application for daily nutrition, calorie balance, and hydration management.</p>
+            </div>
+            
+            <div class="footer-box">
+                <h3>Quick Navigation</h3>
+                <ul>
+                    <li><a href="index.html">Home Landing</a></li>
+                    <li><a href="dashboard.html">Main Dashboard</a></li>
+                    <li><a href="guide.html">Nutrition Guide</a></li>
+                    <li><a href="about.html">About Project</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-box">
+                <h3>Additional Pages</h3>
+                <ul>
+                    <li><a href="water.html">Water Tracker</a></li>
+                    <li><a href="profile.html">User Profile</a></li>
+                    <li><a href="history.html">Activity History</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-box">
+                <h3>Clinical & Research</h3>
+                <p>Water intake standards based on global medical research:</p>
+                <a href="https://www.nationalacademies.org/news/2004/02/report-sets-dietary-reference-intakes-for-water-and-electrolytes" target="_blank" style="color: var(--primary-color); text-decoration: underline; font-size: 13px; font-weight: 600;">NAS Study on Water & Electrolytes</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom-row">
+            <p>&copy; 2026 NutriTrack. Developed for Web Engineering Project.</p>
+            <p>Designed with Responsive CSS & LocalStorage.</p>
+        </div>
+    </footer>
+    </script>
+</body>
+</html>
