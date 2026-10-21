@@ -16,13 +16,15 @@
 </head>
 <body>
     <header class="navbar">
-        <div class="logo">Nutri<span>Track</span></div>
+        <a href="index.html" class="logo" style="text-decoration: none;">Nutri<span>Track</span></a>
         <div class="menu-toggle" id="mobile-menu">
             <span></span><span></span><span></span>
         </div>
         <nav class="nav-links" id="nav-links">
             <a href="index.html">Home</a>
-            <a href="dashboard.html" class="active">Dashboard</a>
+            <a href="dashboard.html" class="active" style="color: var(--primary-color);">Dashboard</a>
+            <a href="bmi.html">BMI</a>
+            <a href="profile.html">Profile</a>
             <a href="guide.html">Guide</a>
             <a href="about.html">About</a>
             <a href="login.html" id="logoutBtn" style="background: #ef4444; color: var(--white); padding: 6px 18px; border-radius: 20px; font-weight: 600; text-decoration: none;">Logout</a>
@@ -86,16 +88,16 @@
                             <option value="Custom" data-cals="" data-prot="">Custom (Type your own)</option>
                         </select>
                         <input type="text" id="customMealName" placeholder="Meal name" style="display: none; flex: 1.5; min-width: 120px; padding: 12px 16px; border-radius: 12px; border: 1px solid #cbd5e1; outline: none; font-size: 15px;">
-                        <input type="number" id="mealQty" placeholder="Qty" value="1" min="1" style="width: 70px; padding: 12px; border-radius: 12px; border: 1px solid #cbd5e1; outline: none; font-size: 15px; text-align: center;" title="Quantity">
-                        <input type="number" id="mealCalories" placeholder="Kcal" style="width: 90px; padding: 12px; border-radius: 12px; border: 1px solid #cbd5e1; outline: none; font-size: 15px;" title="Total Calories">
-                        <input type="number" id="mealProtein" placeholder="Protein (g)" style="width: 100px; padding: 12px; border-radius: 12px; border: 1px solid #cbd5e1; outline: none; font-size: 15px;" title="Total Protein">
-                        <button id="addMealBtn" class="cta-button" style="padding: 12px 25px; border-radius: 12px; font-size: 15px;">Add</button>
+                        <input type="number" id="mealQty" placeholder="Qty" value="1" min="1" style="width: 70px; padding: 12px; border-radius: 12px; border: 1px solid #cbd5e1; outline: none; font-size: 15px; text-align: center;">
+                        <input type="number" id="mealCalories" placeholder="Kcal" style="width: 90px; padding: 12px; border-radius: 12px; border: 1px solid #cbd5e1; outline: none; font-size: 15px;">
+                        <input type="number" id="mealProtein" placeholder="Protein (g)" style="width: 100px; padding: 12px; border-radius: 12px; border: 1px solid #cbd5e1; outline: none; font-size: 15px;">
+                        <button id="addMealBtn" style="padding: 12px 25px; border-radius: 12px; font-size: 15px; background: var(--primary-color); color: white; border: none; cursor: pointer;">Add</button>
                     </div>
                 </div>
 
                 <div style="background: var(--white); padding: 25px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid #f1f5f9;">
                     <h3 style="font-size: 18px; margin-bottom: 15px; color: var(--text-main);">Stay Hydrated</h3>
-                    <button id="addWaterBtn" class="cta-button" style="width: 100%; max-width: 250px; padding: 14px; border-radius: 12px; font-size: 16px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);">+1 Glass Water</button>
+                    <button id="addWaterBtn" style="width: 100%; max-width: 250px; padding: 14px; border-radius: 12px; font-size: 16px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; border: none; cursor: pointer; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);">+1 Glass Water</button>
                 </div>
             </div>
 
@@ -220,8 +222,8 @@
         });
 
         document.getElementById('logoutBtn').addEventListener('click', () => { localStorage.removeItem('nutriLoggedIn'); });
-    </script>
-    <script>
+
+        // Mobile Menu Logic
         (function () {
             var toggle = document.getElementById('mobile-menu');
             var links = document.getElementById('nav-links');
@@ -236,21 +238,21 @@
             });
         })();
     </script>
- <!-- Modern Footer -->
+
+<!-- Modern Footer -->
     <footer class="site-footer">
         <div class="footer-container">
-            <a href="index.html" class="footer-logo">Nutri<span>Track</span></a>
-            
+            <a href="index.html" class="footer-logo" style="text-decoration: none;">Nutri<span>Track</span></a>
             <ul class="footer-links-list">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="bmi.html">BMI</a></li>
+                <li><a href="profile.html">Profile</a></li>
                 <li><a href="guide.html">Guide</a></li>
                 <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
-
-            <div class="footer-credit">
-                Designed by Mohsin
-            </div>
+            <div class="footer-credit">Designed by Mohsin</div>
         </div>
     </footer>
 </body>

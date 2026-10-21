@@ -30,20 +30,22 @@
 </head>
 <body>
     <header class="navbar">
-        <div class="logo">Nutri<span>Track</span></div>
+        <a href="index.html" class="logo" style="text-decoration: none;">Nutri<span>Track</span></a>
         <div class="menu-toggle" id="mobile-menu">
             <span></span><span></span><span></span>
         </div>
         <nav class="nav-links" id="nav-links">
             <a href="index.html">Home</a>
             <a href="dashboard.html">Dashboard</a>
+            <a href="bmi.html">BMI</a>
+            <a href="profile.html">Profile</a>
             <a href="guide.html">Guide</a>
             <a href="about.html" class="active" style="color: var(--primary-color);">About</a>
             <a href="login.html" id="logoutBtn" style="background: #ef4444; color: var(--white); padding: 6px 18px; border-radius: 20px; font-weight: 600; text-decoration: none;">Logout</a>
         </nav>
     </header>
 
-    <main style="padding: 130px 8% 80px 8%; max-width: 1000px; margin: 0 auto;">
+    <main style="padding: 130px 8% 80px 8%; max-width: 1000px; margin: 0 auto; min-height: 70vh;">
         <div style="text-align: center; margin-bottom: 50px;">
             <h1 style="font-size: 38px; font-weight: 800; color: var(--text-main);">About NutriTrack</h1>
             <p style="color: var(--text-muted); font-size: 18px; margin-top: 10px;">
@@ -66,15 +68,15 @@
         </div>
 
         <div style="text-align: center; margin-top: 40px;">
-            <a href="dashboard.html" class="cta-button">Back to Dashboard</a>
+            <a href="dashboard.html" style="background: var(--primary-color); color: white; padding: 12px 25px; border-radius: 10px; text-decoration: none; font-weight: 600;">Back to Dashboard</a>
         </div>
     </main>
 
     <script>
         if (localStorage.getItem('nutriLoggedIn') !== 'true') { window.location.replace('login.html'); }
         document.getElementById('logoutBtn').addEventListener('click', () => { localStorage.removeItem('nutriLoggedIn'); });
-    </script>
-    <script>
+        
+        // Mobile Menu Logic
         (function () {
             var toggle = document.getElementById('mobile-menu');
             var links = document.getElementById('nav-links');
@@ -88,23 +90,23 @@
                 }
             });
         })();
+    </script>
+
 <!-- Modern Footer -->
     <footer class="site-footer">
         <div class="footer-container">
-            <a href="index.html" class="footer-logo">Nutri<span>Track</span></a>
-            
+            <a href="index.html" class="footer-logo" style="text-decoration: none;">Nutri<span>Track</span></a>
             <ul class="footer-links-list">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="bmi.html">BMI</a></li>
+                <li><a href="profile.html">Profile</a></li>
                 <li><a href="guide.html">Guide</a></li>
                 <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
-
-            <div class="footer-credit">
-                Designed by Mohsin
-            </div>
+            <div class="footer-credit">Designed by Mohsin</div>
         </div>
     </footer>
-    </script>
 </body>
 </html>

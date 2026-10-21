@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - NutriTrack</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .profile-card {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            border: 1px solid #f1f5f9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            background: #e2e8f0;
+            color: var(--primary-color);
+            font-size: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto 25px auto;
+        }
+        .form-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+            flex: 1;
+            min-width: 200px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-main);
+            font-size: 14px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            transition: 0.3s;
+            background: #fff;
+            box-sizing: border-box;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+        }
+        .save-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        .save-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        .success-msg {
+            color: #16a34a;
+            background: #dcfce7;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 20px;
+            display: none;
+        }
+
+        /* Modern Sleek Footer Styles */
+        .site-footer {
+            background: #0f172a;
+            color: #94a3b8;
+            padding: 35px 8%;
+            margin-top: 80px;
+            border-top: 1px solid #1e293b;
+            font-family: inherit;
+        }
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .footer-logo {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .footer-logo span {
+            color: var(--primary-color);
+        }
+        .footer-links-list {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-wrap: wrap;
+        }
+        .footer-links-list a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .footer-links-list a:hover {
+            color: #ffffff;
+        }
+        .footer-credit {
+            font-size: 14px;
+            color: #cbd5e1;
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">Nutri<span>Track</span></div>
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span><span></span><span></span>
+        </div>
+        <nav class="nav-links" id="nav-links">
+            <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="bmi.html">BMI</a>
+            <a href="profile.html" class="active" style="color: var(--primary-color);">Profile</a>
+            <a href="guide.html">Guide</a>
+            <a href="about.html">About</a>
+            <a href="login.html" id="logoutBtn" style="background: #ef4444; color: var(--white); padding: 6px 18px; border-radius: 20px; font-weight: 600; text-decoration: none;">Logout</a>
+        </nav>
+    </header>
+
+    <main style="padding: 130px 8% 80px 8%; min-height: 70vh;">
+        <div style="text-align: center; margin-bottom: 40px;">
+            <h1 style="font-size: 34px; font-weight: 800; color: var(--text-main);">My Profile</h1>
+            <p style="color: var(--text-muted); font-size: 16px; margin-top: 8px;">Manage your personal details and daily nutrition targets.</p>
+        </div>
+
+        <div class="profile-card">
+            <div class="profile-avatar">👤</div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="profName" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="number" id="profAge" placeholder="e.g. 21">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select id="profGender">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Target Daily Calories (kcal)</label>
+                    <input type="number" id="profCalories" placeholder="e.g. 2000">
+                </div>
+            </div>
+
+            <button class="save-btn" onclick="saveProfile()">Save Profile Changes</button>
+            <div class="success-msg" id="successMsg">Profile updated successfully!</div>
+        </div>
+    </main>
+
+    <!-- Modern Footer -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <a href="index.html" class="footer-logo">Nutri<span>Track</span></a>
+            <ul class="footer-links-list">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="bmi.html">BMI</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="guide.html">Guide</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+            <div class="footer-credit">Designed by Mohsin</div>
+        </div>
+    </footer>
+
+    <script>
+        // Check Login
+        if (localStorage.getItem('nutriLoggedIn') !== 'true') { window.location.replace('login.html'); }
+        document.getElementById('logoutBtn').addEventListener('click', () => { localStorage.removeItem('nutriLoggedIn'); });
+
+        // Load existing data when page opens
+        window.onload = function() {
+            if(localStorage.getItem('nutriName')) document.getElementById('profName').value = localStorage.getItem('nutriName');
+            if(localStorage.getItem('nutriAge')) document.getElementById('profAge').value = localStorage.getItem('nutriAge');
+            if(localStorage.getItem('nutriGender')) document.getElementById('profGender').value = localStorage.getItem('nutriGender');
+            if(localStorage.getItem('nutriCalories')) document.getElementById('profCalories').value = localStorage.getItem('nutriCalories');
+        };
+
+        // Save data to localStorage
+        function saveProfile() {
+            const name = document.getElementById('profName').value;
+            const age = document.getElementById('profAge').value;
+            const gender = document.getElementById('profGender').value;
+            const calories = document.getElementById('profCalories').value;
+
+            localStorage.setItem('nutriName', name);
+            localStorage.setItem('nutriAge', age);
+            localStorage.setItem('nutriGender', gender);
+            localStorage.setItem('nutriCalories', calories);
+
+            // Show success message
+            const msgBox = document.getElementById('successMsg');
+            msgBox.style.display = 'block';
+            setTimeout(() => {
+                msgBox.style.display = 'none';
+            }, 3000); // Hide after 3 seconds
+        }
+    </script>
+    <script>
+        // Mobile Menu Logic
+        (function () {
+            var toggle = document.getElementById('mobile-menu');
+            var links = document.getElementById('nav-links');
+            if (!toggle || !links) return;
+            toggle.addEventListener('click', function (e) {
+                e.stopPropagation(); links.classList.toggle('active'); toggle.classList.toggle('open');
+            });
+            document.addEventListener('click', function (e) {
+                if (!links.contains(e.target) && !toggle.contains(e.target)) {
+                    links.classList.remove('active'); toggle.classList.remove('open');
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

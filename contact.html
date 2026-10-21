@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - NutriTrack</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .contact-card {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            border: 1px solid #f1f5f9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-main);
+            font-size: 14px;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            transition: 0.3s;
+            background: #fff;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        .send-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        .send-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        .success-msg {
+            color: #16a34a;
+            background: #dcfce7;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <a href="index.html" class="logo" style="text-decoration: none;">Nutri<span>Track</span></a>
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span><span></span><span></span>
+        </div>
+        <nav class="nav-links" id="nav-links">
+            <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="bmi.html">BMI</a>
+            <a href="profile.html">Profile</a>
+            <a href="guide.html">Guide</a>
+            <a href="about.html">About</a>
+            <a href="contact.html" class="active" style="color: var(--primary-color);">Contact</a>
+        </nav>
+    </header>
+
+    <main style="padding: 130px 8% 80px 8%; min-height: 70vh;">
+        <div style="text-align: center; margin-bottom: 40px;">
+            <h1 style="font-size: 34px; font-weight: 800; color: var(--text-main);">Get in Touch</h1>
+            <p style="color: var(--text-muted); font-size: 16px; margin-top: 8px;">Have questions or feedback? We would love to hear from you.</p>
+        </div>
+
+        <div class="contact-card">
+            <form id="contactForm">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="contactName" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="contactEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea id="contactMessage" placeholder="How can we help you?" required></textarea>
+                </div>
+                <button type="submit" class="send-btn">Send Message</button>
+            </form>
+            <div class="success-msg" id="successMsg">Thank you! Your message has been sent successfully.</div>
+        </div>
+    </main>
+
+    <script>
+        // Form Submission Logic
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent page reload
+            
+            // Show success message
+            const msgBox = document.getElementById('successMsg');
+            msgBox.style.display = 'block';
+            
+            // Clear form fields
+            this.reset();
+
+            // Hide message after 3 seconds
+            setTimeout(() => {
+                msgBox.style.display = 'none';
+            }, 3000);
+        });
+
+        // Mobile Menu Logic
+        (function () {
+            var toggle = document.getElementById('mobile-menu');
+            var links = document.getElementById('nav-links');
+            if (!toggle || !links) return;
+            toggle.addEventListener('click', function (e) {
+                e.stopPropagation(); links.classList.toggle('active'); toggle.classList.toggle('open');
+            });
+            document.addEventListener('click', function (e) {
+                if (!links.contains(e.target) && !toggle.contains(e.target)) {
+                    links.classList.remove('active'); toggle.classList.remove('open');
+                }
+            });
+        })();
+    </script>
+
+<!-- Modern Footer -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <a href="index.html" class="footer-logo" style="text-decoration: none;">Nutri<span>Track</span></a>
+            <ul class="footer-links-list">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="bmi.html">BMI</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="guide.html">Guide</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="footer-credit">Designed by Mohsin</div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -8,21 +8,23 @@
 </head>
 <body style="background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%); min-height: 100vh; display: flex; flex-direction: column;">
 
-    <!-- Proper Navbar Added -->
     <header class="navbar">
-        <div class="logo">Nutri<span>Track</span></div>
+        <a href="index.html" class="logo" style="text-decoration: none;">Nutri<span>Track</span></a>
         <div class="menu-toggle" id="mobile-menu">
             <span></span><span></span><span></span>
         </div>
         <nav class="nav-links" id="nav-links">
             <a href="index.html">Home</a>
             <a href="dashboard.html">Dashboard</a>
+            <a href="bmi.html">BMI</a>
+            <a href="profile.html">Profile</a>
             <a href="guide.html">Guide</a>
+            <a href="about.html">About</a>
             <a href="login.html" id="logoutBtn" style="background: #ef4444; color: var(--white); padding: 6px 18px; border-radius: 20px; font-weight: 600; text-decoration: none;">Logout</a>
         </nav>
     </header>
 
-    <main style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 130px 20px 40px 20px;">
+    <main style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 130px 20px 80px 20px;">
         <div style="background: var(--white); padding: 40px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.08); width: 100%; max-width: 450px; border: 1px solid rgba(34, 197, 94, 0.2);">
             <div style="text-align: center; margin-bottom: 30px;">
                 <h2 style="font-size: 28px; font-weight: 800; color: var(--text-main);">Set Your Goals</h2>
@@ -50,7 +52,7 @@
                     <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(--text-main);">Current Weight (kg)</label>
                     <input type="number" id="currentWeight" placeholder="e.g., 70" required style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #cbd5e1; outline: none; font-size: 15px;">
                 </div>
-                <button type="submit" class="cta-button" style="width: 100%; margin-top: 5px; text-align: center;">Save Goals & Go to Dashboard</button>
+                <button type="submit" style="width: 100%; margin-top: 5px; text-align: center; background: var(--primary-color); color: white; padding: 12px; border-radius: 12px; font-size: 16px; font-weight: 600; border: none; cursor: pointer;">Save Goals & Go to Dashboard</button>
             </form>
         </div>
     </main>
@@ -77,8 +79,8 @@
         }
         
         document.getElementById('logoutBtn').addEventListener('click', () => { localStorage.removeItem('nutriLoggedIn'); });
-    </script>
-    <script>
+
+        // Mobile Menu Logic
         (function () {
             var toggle = document.getElementById('mobile-menu');
             var links = document.getElementById('nav-links');
@@ -93,5 +95,22 @@
             });
         })();
     </script>
+
+   <!-- Modern Footer -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <a href="index.html" class="footer-logo" style="text-decoration: none;">Nutri<span>Track</span></a>
+            <ul class="footer-links-list">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="bmi.html">BMI</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="guide.html">Guide</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="footer-credit">Designed by Mohsin</div>
+        </div>
+    </footer>
 </body>
 </html>

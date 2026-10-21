@@ -19,22 +19,22 @@
 </head>
 <body>
     <header class="navbar">
-        <div class="logo">Nutri<span>Track</span></div>
-        
+        <a href="index.html" class="logo" style="text-decoration: none;">Nutri<span>Track</span></a>
         <div class="menu-toggle" id="mobile-menu">
-            <span></span>
-            <span></span>
-            <span></span>
+            <span></span><span></span><span></span>
         </div>
-
         <nav class="nav-links" id="nav-links">
             <a href="index.html">Home</a>
             <a href="dashboard.html">Dashboard</a>
+            <a href="bmi.html">BMI</a>
+            <a href="profile.html">Profile</a>
             <a href="guide.html" class="active" style="color: var(--primary-color);">Guide</a>
+            <a href="about.html">About</a>
+            <a href="login.html" id="logoutBtn" style="background: #ef4444; color: var(--white); padding: 6px 18px; border-radius: 20px; font-weight: 600; text-decoration: none;">Logout</a>
         </nav>
     </header>
 
-    <main style="padding: 130px 8% 80px 8%; max-width: 1200px; margin: 0 auto;">
+    <main style="padding: 130px 8% 80px 8%; max-width: 1200px; margin: 0 auto; min-height: 70vh;">
         <div style="text-align: center; margin-bottom: 50px;">
             <h1 style="font-size: 38px; font-weight: 800; color: var(--text-main);">How to Set Your Goals</h1>
             <p style="color: var(--text-muted); font-size: 18px; margin-top: 10px; max-width: 600px; margin-left: auto; margin-right: auto;">
@@ -43,8 +43,6 @@
         </div>
 
         <div style="display: flex; flex-direction: column; gap: 40px;">
-            
-            <!-- Section 1: Calories Guide -->
             <div style="background: var(--white); padding: 35px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid #f1f5f9;">
                 <h2 style="font-size: 24px; font-weight: 800; color: var(--primary-dark); margin-bottom: 20px; display: flex; align-items: center;">
                     <svg class="icon-svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
@@ -78,7 +76,6 @@
                 </div>
             </div>
 
-            <!-- Section 2: Protein Guide -->
             <div style="background: var(--white); padding: 35px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid #f1f5f9;">
                 <h2 style="font-size: 24px; font-weight: 800; color: #f59e0b; margin-bottom: 20px; display: flex; align-items: center;">
                     <svg class="icon-svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
@@ -88,7 +85,6 @@
                     Protein is essential for muscle building and recovery. Your physical activity level determines your daily protein requirements based on your current body weight.
                 </p>
                 <div style="display: flex; flex-direction: column; gap: 15px;">
-                    
                     <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg-light); padding: 15px 20px; border-radius: 12px; flex-wrap: wrap; gap: 10px;">
                         <div>
                             <h4 style="font-size: 16px; color: var(--text-main); display: flex; align-items: center;">
@@ -99,7 +95,6 @@
                         </div>
                         <div style="font-size: 18px; font-weight: 800; color: var(--text-main);">0.8g <span style="font-size: 14px; font-weight: normal; color: var(--text-muted);">per kg of body weight</span></div>
                     </div>
-
                     <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg-light); padding: 15px 20px; border-radius: 12px; flex-wrap: wrap; gap: 10px;">
                         <div>
                             <h4 style="font-size: 16px; color: var(--text-main); display: flex; align-items: center;">
@@ -110,7 +105,6 @@
                         </div>
                         <div style="font-size: 18px; font-weight: 800; color: var(--text-main);">1.2g - 1.5g <span style="font-size: 14px; font-weight: normal; color: var(--text-muted);">per kg of body weight</span></div>
                     </div>
-
                     <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg-light); padding: 15px 20px; border-radius: 12px; flex-wrap: wrap; gap: 10px;">
                         <div>
                             <h4 style="font-size: 16px; color: var(--text-main); display: flex; align-items: center;">
@@ -121,55 +115,52 @@
                         </div>
                         <div style="font-size: 18px; font-weight: 800; color: var(--text-main);">1.6g - 2.2g <span style="font-size: 14px; font-weight: normal; color: var(--text-muted);">per kg of body weight</span></div>
                     </div>
-
                 </div>
-                
                 <div style="margin-top: 25px; padding: 15px; border-radius: 12px; background: #fffbeb; border-left: 4px solid #f59e0b;">
                     <strong>Note:</strong> For example, if you weigh <strong>70kg</strong> and perform strength training, your daily protein requirement would be approximately: <code>70 x 1.8 = 126 grams</code>.
                 </div>
             </div>
-
         </div>
 
         <div style="text-align: center; margin-top: 50px;">
-            <a href="setup.html" class="cta-button">Set Your Goals Now</a>
+            <a href="setup.html" style="background: var(--primary-color); color: white; padding: 12px 25px; border-radius: 10px; text-decoration: none; font-weight: 600;">Set Your Goals Now</a>
         </div>
     </main>
 
     <script>
-        // Mobile hamburger menu logic
+        if (localStorage.getItem('nutriLoggedIn') !== 'true') { window.location.replace('login.html'); }
+        document.getElementById('logoutBtn').addEventListener('click', () => { localStorage.removeItem('nutriLoggedIn'); });
+        
+        // Mobile Menu Logic
         (function () {
             var toggle = document.getElementById('mobile-menu');
             var links = document.getElementById('nav-links');
             if (!toggle || !links) return;
             toggle.addEventListener('click', function (e) {
-                e.stopPropagation();
-                links.classList.toggle('active');
-                toggle.classList.toggle('open');
+                e.stopPropagation(); links.classList.toggle('active'); toggle.classList.toggle('open');
             });
             document.addEventListener('click', function (e) {
                 if (!links.contains(e.target) && !toggle.contains(e.target)) {
-                    links.classList.remove('active');
-                    toggle.classList.remove('open');
+                    links.classList.remove('active'); toggle.classList.remove('open');
                 }
             });
         })();
     </script>
-<!-- Modern Footer -->
+
+  <!-- Modern Footer -->
     <footer class="site-footer">
         <div class="footer-container">
-            <a href="index.html" class="footer-logo">Nutri<span>Track</span></a>
-            
+            <a href="index.html" class="footer-logo" style="text-decoration: none;">Nutri<span>Track</span></a>
             <ul class="footer-links-list">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="bmi.html">BMI</a></li>
+                <li><a href="profile.html">Profile</a></li>
                 <li><a href="guide.html">Guide</a></li>
                 <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
-
-            <div class="footer-credit">
-                Designed by Mohsin
-            </div>
+            <div class="footer-credit">Designed by Mohsin</div>
         </div>
     </footer>
 </body>
