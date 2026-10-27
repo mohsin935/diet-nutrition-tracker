@@ -13,6 +13,27 @@
         .history-cals { color: var(--primary-dark); font-weight: 700; }
         .icon-btn { display: flex; align-items: center; gap: 8px; }
         .category-badge { font-size: 11px; background: #e2e8f0; padding: 2px 8px; border-radius: 6px; color: var(--text-muted); margin-left: 6px; }
+        
+        /* Professional Notification Banner */
+        .notification-banner {
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: none;
+            text-align: center;
+        }
+        .notification-banner.error {
+            background: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fca5a5;
+        }
+        .notification-banner.success {
+            background: #dcfce7;
+            color: #15803d;
+            border: 1px solid #86efac;
+        }
     </style>
 </head>
 <body>
@@ -76,6 +97,10 @@
             <div style="flex: 2; min-width: 320px; display: flex; flex-direction: column; gap: 25px;">
                 <div style="background: var(--white); padding: 25px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid #f1f5f9;">
                     <h3 style="font-size: 18px; margin-bottom: 15px; color: var(--text-main);">Log a Meal</h3>
+                    
+                    <!-- Professional Notification Message Box -->
+                    <div id="notificationBanner" class="notification-banner"></div>
+
                     <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
                         <select id="mealCategory" style="flex: 1; min-width: 130px; padding: 12px; border-radius: 12px; border: 1px solid #cbd5e1; outline: none; font-size: 15px; background: var(--white); cursor: pointer;">
                             <option value="Breakfast">Breakfast</option>
@@ -134,6 +159,17 @@
         let currentProtein = parseInt(localStorage.getItem('nutriProteinConsumed')) || 0;
         let mealsCount = parseInt(localStorage.getItem('nutriMealsCount')) || 0;
         let mealHistory = JSON.parse(localStorage.getItem('nutriMealHistory')) || [];
+
+        // Helper function for professional messages instead of alert()
+        function showMessage(msg, type = 'error') {
+            const banner = document.getElementById('notificationBanner');
+            banner.innerText = msg;
+            banner.className = `notification-banner ${type}`;
+            banner.style.display = 'block';
+            setTimeout(() => {
+                banner.style.display = 'none';
+            }, 3000);
+        }
 
         function updateUI() {
             document.getElementById('calsConsumed').innerText = currentCals;
@@ -208,10 +244,12 @@
                 localStorage.setItem('nutriMealHistory', JSON.stringify(mealHistory));
                 updateUI();
                 
+                showMessage("Meal added successfully!", "success");
+
                 mealSelect.value = ''; customMealName.style.display = 'none'; customMealName.value = '';
                 mealQty.value = 1; mealCalories.value = ''; mealProtein.value = ''; mealSelect.style.flex = "2";
             } else {
-                alert("Please enter a valid meal and calories.");
+                showMessage("Please select a meal and enter valid calories.", "error");
             }
         });
 
@@ -222,12 +260,13 @@
         });
 
         document.getElementById('resetDailyBtn').addEventListener('click', () => {
-            if(confirm("Are you sure you want to reset today's progress? This will delete logged meals but keep your goals.")) {
+            if(confirm("Are you sure you want to reset today's progress?")) {
                 currentCals = 0; currentWater = 0; currentProtein = 0; mealsCount = 0; mealHistory = [];
                 localStorage.setItem('nutriCalsConsumed', 0); localStorage.setItem('nutriWaterConsumed', 0);
                 localStorage.setItem('nutriProteinConsumed', 0); localStorage.setItem('nutriMealsCount', 0);
                 localStorage.removeItem('nutriMealHistory');
                 updateUI();
+                showMessage("Daily progress reset successfully.", "success");
             }
         });
 

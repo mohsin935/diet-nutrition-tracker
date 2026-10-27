@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - NutriTrack</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .notification-banner {
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: none;
+            text-align: center;
+        }
+        .notification-banner.error { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
+        .notification-banner.success { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+    </style>
 </head>
 <body style="background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center;">
 
@@ -13,6 +26,8 @@
             <h2 style="font-size: 28px; font-weight: 800; color: var(--text-main);">Welcome Back</h2>
             <p style="color: var(--text-muted); font-size: 15px; margin-top: 5px;">Login to access your NutriTrack dashboard</p>
         </div>
+
+        <div id="notificationBanner" class="notification-banner"></div>
 
         <form id="loginForm" style="display: flex; flex-direction: column; gap: 20px;">
             <div>
@@ -31,7 +46,6 @@
         </p>
     </div>
     <script>
-        // Already logged in check: Agar setup complete nahi hai toh setup.html par bhejo
         if (localStorage.getItem('nutriLoggedIn') === 'true') {
             if (localStorage.getItem('nutriSetupComplete') === 'true') {
                 window.location.href = 'dashboard.html';
@@ -40,7 +54,14 @@
             }
         }
 
-        // Login Logic
+        function showMessage(msg, type = 'error') {
+            const banner = document.getElementById('notificationBanner');
+            banner.innerText = msg;
+            banner.className = `notification-banner ${type}`;
+            banner.style.display = 'block';
+            setTimeout(() => { banner.style.display = 'none'; }, 3000);
+        }
+
         const loginForm = document.getElementById('loginForm');
         if (loginForm) {
             loginForm.addEventListener('submit', function(e) {
@@ -51,12 +72,10 @@
                 const savedEmail = localStorage.getItem('nutriUserEmail');
                 const savedPassword = localStorage.getItem('nutriUserPassword');
 
-                // Admin bypass logic
                 if (!savedEmail) {
                     if (emailInput === "admin@gmail.com" && passwordInput === "123456") {
                         localStorage.setItem('nutriUserName', 'Admin User');
                         localStorage.setItem('nutriLoggedIn', 'true');
-                        
                         if (localStorage.getItem('nutriSetupComplete') === 'true') {
                             window.location.href = 'dashboard.html';
                         } else {
@@ -64,25 +83,26 @@
                         }
                         return;
                     }
-                    alert('No account found! Please sign up first.');
-                    window.location.href = 'signup.html';
+                    showMessage('No account found! Please sign up first.', 'error');
+                    setTimeout(() => { window.location.href = 'signup.html'; }, 1500);
                     return;
                 }
 
                 if (emailInput === savedEmail && passwordInput === savedPassword) {
                     localStorage.setItem('nutriLoggedIn', 'true');
-                    
-                    if (localStorage.getItem('nutriSetupComplete') === 'true') {
-                        window.location.href = 'dashboard.html';
-                    } else {
-                        window.location.href = 'setup.html';
-                    }
+                    showMessage('Login successful! Redirecting...', 'success');
+                    setTimeout(() => {
+                        if (localStorage.getItem('nutriSetupComplete') === 'true') {
+                            window.location.href = 'dashboard.html';
+                        } else {
+                            window.location.href = 'setup.html';
+                        }
+                    }, 1000);
                 } else {
-                    alert('Invalid email or password. Please try again.');
+                    showMessage('Invalid email or password. Please try again.', 'error');
                 }
             });
         }
     </script>
-
 </body>
 </html>

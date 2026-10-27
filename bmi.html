@@ -35,6 +35,7 @@
             outline: none;
             transition: 0.3s;
             background: #fff;
+            box-sizing: border-box;
         }
         .form-group input:focus, .form-group select:focus {
             border-color: var(--primary-color);
@@ -44,12 +45,15 @@
             display: flex;
             gap: 10px;
         }
+        .height-inputs input {
+            flex: 1;
+        }
         .calc-btn {
             background: var(--primary-color);
             color: white;
             border: none;
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             border-radius: 10px;
             font-size: 16px;
             font-weight: 600;
@@ -58,6 +62,7 @@
         }
         .calc-btn:hover {
             opacity: 0.9;
+            transform: translateY(-2px);
         }
         .result-box {
             margin-top: 25px;
@@ -87,6 +92,22 @@
             border-radius: 2px;
             left: 0%;
             transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Professional In-Page Notification Banner */
+        .notification-banner {
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: none;
+            text-align: center;
+        }
+        .notification-banner.error {
+            background: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fca5a5;
         }
 
         /* Modern Sleek Footer Styles */
@@ -141,7 +162,7 @@
 </head>
 <body>
     <header class="navbar">
-        <div class="logo">Nutri<span>Track</span></div>
+        <a href="index.html" class="logo" style="text-decoration: none;">Nutri<span>Track</span></a>
         <div class="menu-toggle" id="mobile-menu">
             <span></span><span></span><span></span>
         </div>
@@ -149,8 +170,10 @@
             <a href="index.html">Home</a>
             <a href="dashboard.html">Dashboard</a>
             <a href="bmi.html" class="active" style="color: var(--primary-color);">BMI</a>
+            <a href="profile.html">Profile</a>
             <a href="guide.html">Guide</a>
             <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
             <a href="login.html" id="logoutBtn" style="background: #ef4444; color: var(--white); padding: 6px 18px; border-radius: 20px; font-weight: 600; text-decoration: none;">Logout</a>
         </nav>
     </header>
@@ -162,6 +185,9 @@
         </div>
 
         <div class="bmi-card">
+            <!-- Banner Notification Box -->
+            <div id="notificationBanner" class="notification-banner"></div>
+
             <div class="form-group">
                 <label>Weight (kg)</label>
                 <input type="number" id="weightInput" placeholder="e.g. 70">
@@ -213,22 +239,43 @@
     <!-- Modern Footer -->
     <footer class="site-footer">
         <div class="footer-container">
-            <a href="index.html" class="footer-logo">Nutri<span>Track</span></a>
+            <a href="index.html" class="footer-logo" style="text-decoration: none;">Nutri<span>Track</span></a>
             <ul class="footer-links-list">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="dashboard.html">Dashboard</a></li>
                 <li><a href="bmi.html">BMI</a></li>
+                <li><a href="profile.html">Profile</a></li>
                 <li><a href="guide.html">Guide</a></li>
                 <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
             <div class="footer-credit">Designed by Mohsin</div>
         </div>
     </footer>
 
     <script>
-        if (localStorage.getItem('nutriLoggedIn') !== 'true') { window.location.replace('login.html'); }
-        document.getElementById('logoutBtn').addEventListener('click', () => { localStorage.removeItem('nutriLoggedIn'); });
+        // Login Security Check
+        if (localStorage.getItem('nutriLoggedIn') !== 'true') { 
+            window.location.replace('login.html'); 
+        }
 
+        // Logout Event Listener
+        document.getElementById('logoutBtn').addEventListener('click', () => { 
+            localStorage.removeItem('nutriLoggedIn'); 
+        });
+
+        // Helper Function for Professional Messages instead of alert()
+        function showMessage(msg) {
+            const banner = document.getElementById('notificationBanner');
+            banner.innerText = msg;
+            banner.className = 'notification-banner error';
+            banner.style.display = 'block';
+            setTimeout(() => {
+                banner.style.display = 'none';
+            }, 3500);
+        }
+
+        // Toggle Height Inputs (Centimeters vs Feet/Inches)
         function toggleHeightInputs() {
             const unit = document.getElementById('unitSelect').value;
             if (unit === 'cm') {
@@ -240,20 +287,21 @@
             }
         }
 
+        // BMI Calculation Core Logic
         function calculateBMI() {
             const weight = parseFloat(document.getElementById('weightInput').value);
             const unit = document.getElementById('unitSelect').value;
             let heightM = 0;
 
             if (!weight || weight <= 0) {
-                alert('Please enter a valid weight value.');
+                showMessage('Please enter a valid weight value.');
                 return;
             }
 
             if (unit === 'cm') {
                 const cm = parseFloat(document.getElementById('heightCm').value);
                 if (!cm || cm <= 0) {
-                    alert('Please enter a valid height in cm.');
+                    showMessage('Please enter a valid height in cm.');
                     return;
                 }
                 heightM = cm / 100;
@@ -261,7 +309,7 @@
                 const feet = parseFloat(document.getElementById('heightFeet').value) || 0;
                 const inches = parseFloat(document.getElementById('heightInches').value) || 0;
                 if (feet <= 0 && inches <= 0) {
-                    alert('Please enter valid feet and inches.');
+                    showMessage('Please enter valid feet and inches.');
                     return;
                 }
                 const totalInches = (feet * 12) + inches;
@@ -309,27 +357,29 @@
             bmiCategory.style.color = color;
             bmiDetails.innerText = advice;
             
-            // Adding a small delay for the animation effect
+            // Animation for Speed Meter Gauge Pointer
             setTimeout(() => {
                 gaugePointer.style.left = `${percentage}%`;
             }, 100);
         }
-    </script>
-    <script>
+
+        // Mobile Menu Navigation Script
         (function () {
             var toggle = document.getElementById('mobile-menu');
             var links = document.getElementById('nav-links');
             if (!toggle || !links) return;
             toggle.addEventListener('click', function (e) {
-                e.stopPropagation(); links.classList.toggle('active'); toggle.classList.toggle('open');
+                e.stopPropagation(); 
+                links.classList.toggle('active'); 
+                toggle.classList.toggle('open');
             });
             document.addEventListener('click', function (e) {
                 if (!links.contains(e.target) && !toggle.contains(e.target)) {
-                    links.classList.remove('active'); toggle.classList.remove('open');
+                    links.classList.remove('active'); 
+                    toggle.classList.remove('open');
                 }
             });
         })();
     </script>
-    
 </body>
 </html>
