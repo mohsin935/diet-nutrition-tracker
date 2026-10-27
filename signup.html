@@ -5,57 +5,94 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - NutriTrack</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .notification-banner {
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: none;
+            text-align: center;
+        }
+        .notification-banner.error { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
+        .notification-banner.success { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+    </style>
 </head>
-<body style="background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 20px;">
+<body style="background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px 0;">
 
     <div style="background: var(--white); padding: 40px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.08); width: 100%; max-width: 420px; border: 1px solid rgba(34, 197, 94, 0.2);">
-        <div style="text-align: center; margin-bottom: 30px;">
+        <div style="text-align: center; margin-bottom: 25px;">
             <h2 style="font-size: 28px; font-weight: 800; color: var(--text-main);">Create Account</h2>
-            <p style="color: var(--text-muted); font-size: 15px; margin-top: 5px;">Join NutriTrack and start your fitness journey</p>
+            <p style="color: var(--text-muted); font-size: 15px; margin-top: 5px;">Start tracking your daily nutrition today</p>
         </div>
 
-        <form id="signupForm" style="display: flex; flex-direction: column; gap: 18px;">
+        <div id="notificationBanner" class="notification-banner"></div>
+
+        <form id="signupForm" style="display: flex; flex-direction: column; gap: 16px;">
             <div>
                 <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(--text-main);">Full Name</label>
-                <input type="text" id="signupName" placeholder="Enter your name" required style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #cbd5e1; outline: none; font-size: 15px;">
-            </div>
-            <div>
-                <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(--text-main);">Age</label>
-                <input type="number" id="signupAge" placeholder="Enter your age" min="1" max="120" required style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #cbd5e1; outline: none; font-size: 15px;">
+                <input type="text" id="signupName" placeholder="Enter your full name" required style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #cbd5e1; outline: none; font-size: 15px; box-sizing: border-box;">
             </div>
             <div>
                 <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(--text-main);">Email Address</label>
-                <input type="email" id="signupEmail" placeholder="Enter your email" required style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #cbd5e1; outline: none; font-size: 15px;">
+                <input type="email" id="signupEmail" placeholder="Enter your email" required style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #cbd5e1; outline: none; font-size: 15px; box-sizing: border-box;">
             </div>
             <div>
                 <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(--text-main);">Password</label>
-                <input type="password" id="signupPassword" placeholder="Create a password (min 6 characters)" minlength="6" required style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #cbd5e1; outline: none; font-size: 15px;">
+                <input type="password" id="signupPassword" placeholder="Create a password" required style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #cbd5e1; outline: none; font-size: 15px; box-sizing: border-box;">
             </div>
-            <button type="submit" class="cta-button" style="width: 100%; margin-top: 5px; text-align: center;">Sign Up</button>
+            <div>
+                <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(--text-main);">Confirm Password</label>
+                <input type="password" id="signupConfirmPassword" placeholder="Confirm your password" required style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #cbd5e1; outline: none; font-size: 15px; box-sizing: border-box;">
+            </div>
+            <button type="submit" class="cta-button" style="width: 100%; margin-top: 10px; text-align: center; border: none; cursor: pointer;">Sign Up</button>
         </form>
 
-        <p style="text-align: center; margin-top: 25px; font-size: 15px; color: var(--text-muted);">
+        <p style="text-align: center; margin-top: 20px; font-size: 15px; color: var(--text-muted);">
             Already have an account? <a href="login.html" style="color: var(--primary-color); font-weight: 600; text-decoration: none;">Login</a>
         </p>
     </div>
 
     <script>
+        function showMessage(msg, type = 'error') {
+            const banner = document.getElementById('notificationBanner');
+            banner.innerText = msg;
+            banner.className = `notification-banner ${type}`;
+            banner.style.display = 'block';
+            setTimeout(() => { banner.style.display = 'none'; }, 3000);
+        }
+
         const signupForm = document.getElementById('signupForm');
         if (signupForm) {
             signupForm.addEventListener('submit', function(e) {
                 e.preventDefault();
-                const name = document.getElementById('signupName').value;
-                const age = document.getElementById('signupAge').value;
-                const email = document.getElementById('signupEmail').value;
+                const name = document.getElementById('signupName').value.trim();
+                const email = document.getElementById('signupEmail').value.trim();
                 const password = document.getElementById('signupPassword').value;
+                const confirmPassword = document.getElementById('signupConfirmPassword').value;
 
+                if (password !== confirmPassword) {
+                    showMessage('Passwords do not match. Please try again.', 'error');
+                    return;
+                }
+
+                if (password.length < 6) {
+                    showMessage('Password must be at least 6 characters long.', 'error');
+                    return;
+                }
+
+                // Save user details to localStorage
                 localStorage.setItem('nutriUserName', name);
-                localStorage.setItem('nutriUserAge', age);
                 localStorage.setItem('nutriUserEmail', email);
                 localStorage.setItem('nutriUserPassword', password);
+                localStorage.setItem('nutriLoggedIn', 'true');
 
-                alert('Account created successfully! Please login now.');
-                window.location.href = 'login.html';
+                showMessage('Account created successfully! Redirecting...', 'success');
+
+                setTimeout(() => {
+                    window.location.href = 'setup.html';
+                }, 1200);
             });
         }
     </script>
