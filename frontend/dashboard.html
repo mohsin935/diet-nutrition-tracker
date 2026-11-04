@@ -24,15 +24,42 @@
             display: none;
             text-align: center;
         }
-        .notification-banner.error {
-            background: #fee2e2;
-            color: #b91c1c;
-            border: 1px solid #fca5a5;
+        .notification-banner.error { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
+        .notification-banner.success { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+
+        /* Custom Confirmation Modal Styling */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
         }
-        .notification-banner.success {
-            background: #dcfce7;
-            color: #15803d;
-            border: 1px solid #86efac;
+        .modal-box {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .modal-btns {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .modal-btn-confirm {
+            background: #ef4444; color: white; border: none; padding: 10px 20px;
+            border-radius: 8px; font-weight: 600; cursor: pointer;
+        }
+        .modal-btn-cancel {
+            background: #e2e8f0; color: #334155; border: none; padding: 10px 20px;
+            border-radius: 8px; font-weight: 600; cursor: pointer;
         }
     </style>
 </head>
@@ -143,6 +170,18 @@
         </div>
     </main>
 
+    <!-- Custom Confirmation Modal -->
+    <div id="resetModal" class="modal-overlay">
+        <div class="modal-box">
+            <h3 style="font-size: 20px; font-weight: 700; color: var(--text-main); margin-bottom: 10px;">Reset Today's Progress?</h3>
+            <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5;">Are you sure you want to clear logged meals for today? Your overall goals will remain unchanged.</p>
+            <div class="modal-btns">
+                <button id="confirmResetBtn" class="modal-btn-confirm">Yes, Reset</button>
+                <button id="cancelResetBtn" class="modal-btn-cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         if (localStorage.getItem('nutriLoggedIn') !== 'true') { window.location.replace('login.html'); }
         if (localStorage.getItem('nutriSetupComplete') !== 'true') { window.location.replace('setup.html'); }
@@ -160,15 +199,12 @@
         let mealsCount = parseInt(localStorage.getItem('nutriMealsCount')) || 0;
         let mealHistory = JSON.parse(localStorage.getItem('nutriMealHistory')) || [];
 
-        // Helper function for professional messages instead of alert()
         function showMessage(msg, type = 'error') {
             const banner = document.getElementById('notificationBanner');
             banner.innerText = msg;
             banner.className = `notification-banner ${type}`;
             banner.style.display = 'block';
-            setTimeout(() => {
-                banner.style.display = 'none';
-            }, 3000);
+            setTimeout(() => { banner.style.display = 'none'; }, 3000);
         }
 
         function updateUI() {
@@ -259,15 +295,24 @@
             updateUI();
         });
 
+        // Custom Modal Logic for Reset Daily Data
+        const resetModal = document.getElementById('resetModal');
         document.getElementById('resetDailyBtn').addEventListener('click', () => {
-            if(confirm("Are you sure you want to reset today's progress?")) {
-                currentCals = 0; currentWater = 0; currentProtein = 0; mealsCount = 0; mealHistory = [];
-                localStorage.setItem('nutriCalsConsumed', 0); localStorage.setItem('nutriWaterConsumed', 0);
-                localStorage.setItem('nutriProteinConsumed', 0); localStorage.setItem('nutriMealsCount', 0);
-                localStorage.removeItem('nutriMealHistory');
-                updateUI();
-                showMessage("Daily progress reset successfully.", "success");
-            }
+            resetModal.style.display = 'flex';
+        });
+
+        document.getElementById('cancelResetBtn').addEventListener('click', () => {
+            resetModal.style.display = 'none';
+        });
+
+        document.getElementById('confirmResetBtn').addEventListener('click', () => {
+            currentCals = 0; currentWater = 0; currentProtein = 0; mealsCount = 0; mealHistory = [];
+            localStorage.setItem('nutriCalsConsumed', 0); localStorage.setItem('nutriWaterConsumed', 0);
+            localStorage.setItem('nutriProteinConsumed', 0); localStorage.setItem('nutriMealsCount', 0);
+            localStorage.removeItem('nutriMealHistory');
+            updateUI();
+            resetModal.style.display = 'none';
+            showMessage("Daily progress reset successfully.", "success");
         });
 
         document.getElementById('logoutBtn').addEventListener('click', () => { localStorage.removeItem('nutriLoggedIn'); });
