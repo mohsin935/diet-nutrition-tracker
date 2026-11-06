@@ -20,7 +20,7 @@
             <a href="profile.html">Profile</a>
             <a href="guide.html">Guide</a>
             <a href="about.html">About</a>
-            <a href="login.html" id="logoutBtn" style="background: #ef4444; color: var(--white); padding: 6px 18px; border-radius: 20px; font-weight: 600; text-decoration: none;">Logout</a>
+            <a href="#" id="logoutBtn" style="background: #ef4444; color: var(--white); padding: 6px 18px; border-radius: 20px; font-weight: 600; text-decoration: none;">Logout</a>
         </nav>
     </header>
 
@@ -78,9 +78,12 @@
             });
         }
         
-        document.getElementById('logoutBtn').addEventListener('click', () => { localStorage.removeItem('nutriLoggedIn'); });
+        document.getElementById('logoutBtn').addEventListener('click', (e) => { 
+            e.preventDefault();
+            localStorage.clear();
+            window.location.href = 'login.html';
+        });
 
-        // Mobile Menu Logic
         (function () {
             var toggle = document.getElementById('mobile-menu');
             var links = document.getElementById('nav-links');
@@ -96,7 +99,6 @@
         })();
     </script>
 
-   <!-- Modern Footer -->
     <footer class="site-footer">
         <div class="footer-container">
             <a href="index.html" class="footer-logo" style="text-decoration: none;">Nutri<span>Track</span></a>

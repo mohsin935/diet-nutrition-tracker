@@ -14,7 +14,6 @@
         .icon-btn { display: flex; align-items: center; gap: 8px; }
         .category-badge { font-size: 11px; background: #e2e8f0; padding: 2px 8px; border-radius: 6px; color: var(--text-muted); margin-left: 6px; }
         
-        /* Professional Notification Banner */
         .notification-banner {
             padding: 12px 16px;
             border-radius: 10px;
@@ -27,7 +26,6 @@
         .notification-banner.error { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
         .notification-banner.success { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
 
-        /* Custom Confirmation Modal Styling */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -77,7 +75,7 @@
             <a href="guide.html">Guide</a>
             <a href="about.html">About</a>
             <a href="contact.html">Contact</a>
-            <a href="login.html" id="logoutBtn" style="background: #ef4444; color: var(--white); padding: 6px 18px; border-radius: 20px; font-weight: 600; text-decoration: none;">Logout</a>
+            <a href="#" id="logoutBtn" style="background: #ef4444; color: var(--white); padding: 6px 18px; border-radius: 20px; font-weight: 600; text-decoration: none;">Logout</a>
         </nav>
     </header>
 
@@ -125,7 +123,6 @@
                 <div style="background: var(--white); padding: 25px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid #f1f5f9;">
                     <h3 style="font-size: 18px; margin-bottom: 15px; color: var(--text-main);">Log a Meal</h3>
                     
-                    <!-- Professional Notification Message Box -->
                     <div id="notificationBanner" class="notification-banner"></div>
 
                     <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
@@ -170,7 +167,6 @@
         </div>
     </main>
 
-    <!-- Custom Confirmation Modal -->
     <div id="resetModal" class="modal-overlay">
         <div class="modal-box">
             <h3 style="font-size: 20px; font-weight: 700; color: var(--text-main); margin-bottom: 10px;">Reset Today's Progress?</h3>
@@ -186,6 +182,7 @@
         if (localStorage.getItem('nutriLoggedIn') !== 'true') { window.location.replace('login.html'); }
         if (localStorage.getItem('nutriSetupComplete') !== 'true') { window.location.replace('setup.html'); }
 
+        const userId = localStorage.getItem('nutriUserId');
         const userName = localStorage.getItem('nutriUserName');
         if (userName) { document.getElementById('welcomeTitle').innerText = `Welcome, ${userName}!`; }
 
@@ -193,11 +190,8 @@
         document.getElementById('waterTarget').innerText = localStorage.getItem('nutriWaterTarget') || '8';
         document.getElementById('proteinTarget').innerText = localStorage.getItem('nutriProteinTarget') || '60'; 
 
-        let currentCals = parseInt(localStorage.getItem('nutriCalsConsumed')) || 0;
         let currentWater = parseInt(localStorage.getItem('nutriWaterConsumed')) || 0;
-        let currentProtein = parseInt(localStorage.getItem('nutriProteinConsumed')) || 0;
-        let mealsCount = parseInt(localStorage.getItem('nutriMealsCount')) || 0;
-        let mealHistory = JSON.parse(localStorage.getItem('nutriMealHistory')) || [];
+        document.getElementById('waterConsumed').innerText = currentWater;
 
         function showMessage(msg, type = 'error') {
             const banner = document.getElementById('notificationBanner');
@@ -207,29 +201,34 @@
             setTimeout(() => { banner.style.display = 'none'; }, 3000);
         }
 
-        function updateUI() {
-            document.getElementById('calsConsumed').innerText = currentCals;
-            document.getElementById('waterConsumed').innerText = currentWater;
-            document.getElementById('proteinConsumed').innerText = currentProtein;
-            document.getElementById('mealsLoggedCount').innerText = mealsCount;
+        async function fetchTodayMeals() {
+            if (!userId) return;
+            try {
+                const res = await fetch(`http://localhost:5000/api/meals/today/${userId}`);
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('calsConsumed').innerText = data.summary.totalCals;
+                    document.getElementById('proteinConsumed').innerText = data.summary.totalProtein;
+                    document.getElementById('mealsLoggedCount').innerText = data.summary.mealsCount;
 
-            const historyList = document.getElementById('mealHistoryList');
-            const emptyMsg = document.getElementById('emptyHistoryMsg');
-            
-            if (mealHistory.length > 0) {
-                if(emptyMsg) emptyMsg.style.display = 'none';
-                historyList.innerHTML = '';
-                mealHistory.forEach(item => {
-                    const li = document.createElement('li');
-                    li.className = 'history-item';
-                    li.innerHTML = `<div><span class="history-name">${item.qty}x ${item.name}</span><span class="category-badge">${item.category}</span></div> <span class="history-cals">${item.cals} kcal</span>`;
-                    historyList.appendChild(li);
-                });
-            } else {
-                historyList.innerHTML = '<p id="emptyHistoryMsg" style="color: var(--text-muted); font-size: 14px; text-align: center; margin-top: 20px;">No meals logged yet.</p>';
+                    const historyList = document.getElementById('mealHistoryList');
+                    if (data.meals.length > 0) {
+                        historyList.innerHTML = '';
+                        data.meals.forEach(item => {
+                            const li = document.createElement('li');
+                            li.className = 'history-item';
+                            li.innerHTML = `<div><span class="history-name">${item.qty}x ${item.name}</span><span class="category-badge">${item.category}</span></div> <span class="history-cals">${item.calories} kcal</span>`;
+                            historyList.appendChild(li);
+                        });
+                    } else {
+                        historyList.innerHTML = '<p id="emptyHistoryMsg" style="color: var(--text-muted); font-size: 14px; text-align: center; margin-top: 20px;">No meals logged yet.</p>';
+                    }
+                }
+            } catch (err) {
+                console.error('Failed to load meals from backend:', err);
             }
         }
-        updateUI();
+        fetchTodayMeals();
 
         const mealSelect = document.getElementById('mealSelect');
         const mealCategory = document.getElementById('mealCategory');
@@ -263,39 +262,53 @@
         });
         mealQty.addEventListener('input', updateTotals);
 
-        document.getElementById('addMealBtn').addEventListener('click', () => {
+        document.getElementById('addMealBtn').addEventListener('click', async () => {
             let mealName = mealSelect.value === 'Custom' ? customMealName.value.trim() : mealSelect.value;
             const category = mealCategory.value;
             const addedCals = parseInt(mealCalories.value) || 0;
             const addedProt = parseInt(mealProtein.value) || 0;
             const qty = parseInt(mealQty.value) || 1;
 
-            if (mealName && addedCals > 0) {
-                currentCals += addedCals; currentProtein += addedProt; mealsCount += 1;
-                mealHistory.push({ name: mealName, category: category, cals: addedCals, qty: qty });
-                
-                localStorage.setItem('nutriCalsConsumed', currentCals);
-                localStorage.setItem('nutriProteinConsumed', currentProtein);
-                localStorage.setItem('nutriMealsCount', mealsCount);
-                localStorage.setItem('nutriMealHistory', JSON.stringify(mealHistory));
-                updateUI();
-                
-                showMessage("Meal added successfully!", "success");
-
-                mealSelect.value = ''; customMealName.style.display = 'none'; customMealName.value = '';
-                mealQty.value = 1; mealCalories.value = ''; mealProtein.value = ''; mealSelect.style.flex = "2";
-            } else {
+            if (!mealName || addedCals <= 0) {
                 showMessage("Please select a meal and enter valid calories.", "error");
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:5000/api/meals/log', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId,
+                        name: mealName,
+                        category,
+                        calories: addedCals / qty,
+                        protein: addedProt / qty,
+                        qty
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showMessage("Meal logged successfully!", "success");
+                    fetchTodayMeals();
+
+                    mealSelect.value = ''; customMealName.style.display = 'none'; customMealName.value = '';
+                    mealQty.value = 1; mealCalories.value = ''; mealProtein.value = ''; mealSelect.style.flex = "2";
+                } else {
+                    showMessage(data.message || "Failed to log meal.", "error");
+                }
+            } catch (err) {
+                showMessage("Server error. Could not log meal.", "error");
             }
         });
 
         document.getElementById('addWaterBtn').addEventListener('click', () => {
             currentWater += 1;
             localStorage.setItem('nutriWaterConsumed', currentWater);
-            updateUI();
+            document.getElementById('waterConsumed').innerText = currentWater;
         });
 
-        // Custom Modal Logic for Reset Daily Data
         const resetModal = document.getElementById('resetModal');
         document.getElementById('resetDailyBtn').addEventListener('click', () => {
             resetModal.style.display = 'flex';
@@ -306,18 +319,19 @@
         });
 
         document.getElementById('confirmResetBtn').addEventListener('click', () => {
-            currentCals = 0; currentWater = 0; currentProtein = 0; mealsCount = 0; mealHistory = [];
-            localStorage.setItem('nutriCalsConsumed', 0); localStorage.setItem('nutriWaterConsumed', 0);
-            localStorage.setItem('nutriProteinConsumed', 0); localStorage.setItem('nutriMealsCount', 0);
-            localStorage.removeItem('nutriMealHistory');
-            updateUI();
+            currentWater = 0;
+            localStorage.setItem('nutriWaterConsumed', 0);
+            document.getElementById('waterConsumed').innerText = 0;
             resetModal.style.display = 'none';
-            showMessage("Daily progress reset successfully.", "success");
+            showMessage("Daily progress reset locally.", "success");
         });
 
-        document.getElementById('logoutBtn').addEventListener('click', () => { localStorage.removeItem('nutriLoggedIn'); });
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.clear();
+            window.location.href = 'login.html';
+        });
 
-        // Mobile Menu Logic
         (function () {
             var toggle = document.getElementById('mobile-menu');
             var links = document.getElementById('nav-links');
@@ -333,7 +347,6 @@
         })();
     </script>
 
-    <!-- Modern Footer -->
     <footer class="site-footer">
         <div class="footer-container">
             <a href="index.html" class="footer-logo" style="text-decoration: none;">Nutri<span>Track</span></a>

@@ -89,7 +89,6 @@
             display: none;
         }
 
-        /* Modern Sleek Footer Styles */
         .site-footer {
             background: #0f172a;
             color: #94a3b8;
@@ -141,7 +140,7 @@
 </head>
 <body>
     <header class="navbar">
-        <div class="logo">Nutri<span>Track</span></div>
+        <a href="index.html" class="logo" style="text-decoration: none;">Nutri<span>Track</span></a>
         <div class="menu-toggle" id="mobile-menu">
             <span></span><span></span><span></span>
         </div>
@@ -152,7 +151,7 @@
             <a href="profile.html" class="active" style="color: var(--primary-color);">Profile</a>
             <a href="guide.html">Guide</a>
             <a href="about.html">About</a>
-            <a href="login.html" id="logoutBtn" style="background: #ef4444; color: var(--white); padding: 6px 18px; border-radius: 20px; font-weight: 600; text-decoration: none;">Logout</a>
+            <a href="#" id="logoutBtn" style="background: #ef4444; color: var(--white); padding: 6px 18px; border-radius: 20px; font-weight: 600; text-decoration: none;">Logout</a>
         </nav>
     </header>
 
@@ -196,10 +195,9 @@
         </div>
     </main>
 
-    <!-- Modern Footer -->
     <footer class="site-footer">
         <div class="footer-container">
-            <a href="index.html" class="footer-logo">Nutri<span>Track</span></a>
+            <a href="index.html" class="footer-logo" style="text-decoration: none;">Nutri<span>Track</span></a>
             <ul class="footer-links-list">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="dashboard.html">Dashboard</a></li>
@@ -213,40 +211,38 @@
     </footer>
 
     <script>
-        // Check Login
         if (localStorage.getItem('nutriLoggedIn') !== 'true') { window.location.replace('login.html'); }
-        document.getElementById('logoutBtn').addEventListener('click', () => { localStorage.removeItem('nutriLoggedIn'); });
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.clear();
+            window.location.href = 'login.html';
+        });
 
-        // Load existing data when page opens
         window.onload = function() {
-            if(localStorage.getItem('nutriName')) document.getElementById('profName').value = localStorage.getItem('nutriName');
+            if(localStorage.getItem('nutriUserName')) document.getElementById('profName').value = localStorage.getItem('nutriUserName');
             if(localStorage.getItem('nutriAge')) document.getElementById('profAge').value = localStorage.getItem('nutriAge');
             if(localStorage.getItem('nutriGender')) document.getElementById('profGender').value = localStorage.getItem('nutriGender');
-            if(localStorage.getItem('nutriCalories')) document.getElementById('profCalories').value = localStorage.getItem('nutriCalories');
+            if(localStorage.getItem('nutriCaloriesTarget')) document.getElementById('profCalories').value = localStorage.getItem('nutriCaloriesTarget');
         };
 
-        // Save data to localStorage
         function saveProfile() {
             const name = document.getElementById('profName').value;
             const age = document.getElementById('profAge').value;
             const gender = document.getElementById('profGender').value;
             const calories = document.getElementById('profCalories').value;
 
-            localStorage.setItem('nutriName', name);
+            localStorage.setItem('nutriUserName', name);
             localStorage.setItem('nutriAge', age);
             localStorage.setItem('nutriGender', gender);
-            localStorage.setItem('nutriCalories', calories);
+            localStorage.setItem('nutriCaloriesTarget', calories);
 
-            // Show success message
             const msgBox = document.getElementById('successMsg');
             msgBox.style.display = 'block';
             setTimeout(() => {
                 msgBox.style.display = 'none';
-            }, 3000); // Hide after 3 seconds
+            }, 3000);
         }
-    </script>
-    <script>
-        // Mobile Menu Logic
+
         (function () {
             var toggle = document.getElementById('mobile-menu');
             var links = document.getElementById('nav-links');

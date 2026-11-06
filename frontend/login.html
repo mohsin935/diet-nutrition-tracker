@@ -45,6 +45,7 @@
             Don't have an account? <a href="signup.html" style="color: var(--primary-color); font-weight: 600; text-decoration: none;">Sign Up</a>
         </p>
     </div>
+
     <script>
         if (localStorage.getItem('nutriLoggedIn') === 'true') {
             if (localStorage.getItem('nutriSetupComplete') === 'true') {
@@ -64,42 +65,43 @@
 
         const loginForm = document.getElementById('loginForm');
         if (loginForm) {
-            loginForm.addEventListener('submit', function(e) {
+            loginForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
-                const emailInput = document.getElementById('loginEmail').value;
-                const passwordInput = document.getElementById('loginPassword').value;
+                const email = document.getElementById('loginEmail').value.trim();
+                const password = document.getElementById('loginPassword').value;
 
-                const savedEmail = localStorage.getItem('nutriUserEmail');
-                const savedPassword = localStorage.getItem('nutriUserPassword');
+                try {
+                    const response = await fetch('http://localhost:5000/api/auth/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, password })
+                    });
 
-                if (!savedEmail) {
-                    if (emailInput === "admin@gmail.com" && passwordInput === "123456") {
-                        localStorage.setItem('nutriUserName', 'Admin User');
+                    const data = await response.json();
+
+                    if (response.ok && data.success) {
+                        localStorage.setItem('nutriUserId', data.user._id);
+                        localStorage.setItem('nutriUserName', data.user.name);
+                        localStorage.setItem('nutriUserEmail', data.user.email);
+                        localStorage.setItem('nutriCaloriesTarget', data.user.caloriesTarget || 2000);
+                        localStorage.setItem('nutriProteinTarget', data.user.proteinTarget || 60);
+                        localStorage.setItem('nutriWaterTarget', data.user.waterTarget || 8);
+                        localStorage.setItem('nutriWeight', data.user.weight || 70);
                         localStorage.setItem('nutriLoggedIn', 'true');
-                        if (localStorage.getItem('nutriSetupComplete') === 'true') {
-                            window.location.href = 'dashboard.html';
-                        } else {
-                            window.location.href = 'setup.html';
-                        }
-                        return;
+                        
+                        showMessage('Login successful! Redirecting...', 'success');
+                        setTimeout(() => {
+                            if (localStorage.getItem('nutriSetupComplete') === 'true') {
+                                window.location.href = 'dashboard.html';
+                            } else {
+                                window.location.href = 'setup.html';
+                            }
+                        }, 1000);
+                    } else {
+                        showMessage(data.message || 'Invalid email or password.', 'error');
                     }
-                    showMessage('No account found! Please sign up first.', 'error');
-                    setTimeout(() => { window.location.href = 'signup.html'; }, 1500);
-                    return;
-                }
-
-                if (emailInput === savedEmail && passwordInput === savedPassword) {
-                    localStorage.setItem('nutriLoggedIn', 'true');
-                    showMessage('Login successful! Redirecting...', 'success');
-                    setTimeout(() => {
-                        if (localStorage.getItem('nutriSetupComplete') === 'true') {
-                            window.location.href = 'dashboard.html';
-                        } else {
-                            window.location.href = 'setup.html';
-                        }
-                    }, 1000);
-                } else {
-                    showMessage('Invalid email or password. Please try again.', 'error');
+                } catch (err) {
+                    showMessage('Unable to connect to server. Make sure backend is running.', 'error');
                 }
             });
         }
