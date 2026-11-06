@@ -1,21 +1,37 @@
-const Meal = require('../models/Meal');
+const Meal = require('../models/meal');
+const mongoose = require('mongoose');
 
 // Business Logic Layer: Meal Logging & Daily Calculations
 exports.logMeal = async (req, res) => {
     try {
         const { userId, name, category, calories, protein, qty } = req.body;
+        const finalQty = qty === undefined ? 1 : qty;
+        const finalProtein = protein === undefined ? 0 : protein;
+        const finalCategory = category === undefined ? 'Snack' : category;
 
-        if (!name || !calories || calories <= 0) {
-            return res.status(400).json({ success: false, message: 'Valid meal name and calories required' });
+        if (
+            typeof name !== 'string' ||
+            !name.trim() ||
+            !mongoose.Types.ObjectId.isValid(userId) ||
+            typeof calories !== 'number' ||
+            !Number.isFinite(calories) ||
+            calories <= 0 ||
+            !Number.isInteger(finalQty) ||
+            finalQty <= 0 ||
+            typeof finalProtein !== 'number' ||
+            !Number.isFinite(finalProtein) ||
+            finalProtein < 0 ||
+            !['Breakfast', 'Lunch', 'Dinner', 'Snack'].includes(finalCategory)
+        ) {
+            return res.status(400).json({ success: false, message: 'Please provide valid meal details.' });
         }
 
-        const finalQty = qty || 1;
         const newMeal = new Meal({
             userId,
-            name,
-            category: category || 'Snack',
+            name: name.trim(),
+            category: finalCategory,
             calories: calories * finalQty,
-            protein: (protein || 0) * finalQty,
+            protein: finalProtein * finalQty,
             qty: finalQty
         });
 
@@ -31,8 +47,10 @@ exports.getTodayMeals = async (req, res) => {
         const { userId } = req.params;
         const startOfDay = new Date();
         startOfDay.setHours(0, 0, 0, 0);
+        const startOfNextDay = new Date(startOfDay);
+        startOfNextDay.setDate(startOfNextDay.getDate() + 1);
 
-        const meals = await Meal.find({ userId, date: { $gte: startOfDay } });
+        const meals = await Meal.find({ userId, date: { $gte: startOfDay, $lt: startOfNextDay } });
 
         // Calculate totals on backend (BLL)
         const totalCals = meals.reduce((sum, item) => sum + item.calories, 0);
@@ -42,6 +60,33 @@ exports.getTodayMeals = async (req, res) => {
             success: true,
             summary: { totalCals, totalProtein, mealsCount: meals.length },
             meals
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+exports.deleteTodayMeals = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res.status(400).json({ success: false, message: 'A valid user ID is required.' });
+        }
+
+        const startOfDay = new Date();
+        startOfDay.setHours(0, 0, 0, 0);
+        const startOfNextDay = new Date(startOfDay);
+        startOfNextDay.setDate(startOfNextDay.getDate() + 1);
+
+        const result = await Meal.deleteMany({
+            userId,
+            date: { $gte: startOfDay, $lt: startOfNextDay }
+        });
+
+        res.status(200).json({
+            success: true,
+            message: "Today's meals were cleared.",
+            deletedCount: result.deletedCount
         });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });

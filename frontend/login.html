@@ -71,7 +71,7 @@
                 const password = document.getElementById('loginPassword').value;
 
                 try {
-                    const response = await fetch('http://localhost:5000/api/auth/login', {
+                    const response = await fetch('/api/auth/login', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ email, password })
@@ -87,11 +87,12 @@
                         localStorage.setItem('nutriProteinTarget', data.user.proteinTarget || 60);
                         localStorage.setItem('nutriWaterTarget', data.user.waterTarget || 8);
                         localStorage.setItem('nutriWeight', data.user.weight || 70);
+                        localStorage.setItem('nutriSetupComplete', String(data.user.setupComplete));
                         localStorage.setItem('nutriLoggedIn', 'true');
                         
                         showMessage('Login successful! Redirecting...', 'success');
                         setTimeout(() => {
-                            if (localStorage.getItem('nutriSetupComplete') === 'true') {
+                            if (data.user.setupComplete) {
                                 window.location.href = 'dashboard.html';
                             } else {
                                 window.location.href = 'setup.html';

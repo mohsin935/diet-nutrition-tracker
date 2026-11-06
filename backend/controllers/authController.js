@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const User = require('../models/user');
 
 // Business Logic Layer: User Signup & Login
 exports.signup = async (req, res) => {
@@ -14,7 +14,7 @@ exports.signup = async (req, res) => {
             return res.status(400).json({ success: false, message: 'User already exists' });
         }
 
-        const newUser = new User({ name, email, password });
+        const newUser = new User({ name, email, password, setupComplete: false });
         await newUser.save();
 
         res.status(201).json({ success: true, message: 'Account created successfully', user: newUser });
@@ -33,6 +33,35 @@ exports.login = async (req, res) => {
         }
 
         res.status(200).json({ success: true, message: 'Login successful', user });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+exports.saveGoals = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const { caloriesTarget, proteinTarget, waterTarget, weight } = req.body;
+        const goals = [caloriesTarget, proteinTarget, waterTarget, weight];
+
+        if (
+            !/^[a-f\d]{24}$/i.test(userId) ||
+            goals.some(value => typeof value !== 'number' || !Number.isFinite(value) || value <= 0)
+        ) {
+            return res.status(400).json({ success: false, message: 'Please provide valid nutrition goals.' });
+        }
+
+        const user = await User.findByIdAndUpdate(
+            userId,
+            { caloriesTarget, proteinTarget, waterTarget, weight, setupComplete: true },
+            { new: true, runValidators: true }
+        );
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found.' });
+        }
+
+        res.status(200).json({ success: true, message: 'Goals saved successfully.' });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }

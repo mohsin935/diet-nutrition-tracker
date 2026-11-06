@@ -8,7 +8,8 @@ const userSchema = new mongoose.Schema({
     caloriesTarget: { type: Number, default: 2000 },
     proteinTarget: { type: Number, default: 60 },
     waterTarget: { type: Number, default: 8 },
-    weight: { type: Number, default: 70 }
+    weight: { type: Number, default: 70 },
+    setupComplete: { type: Boolean, default: true }
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);

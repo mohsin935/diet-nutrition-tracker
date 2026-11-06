@@ -83,7 +83,7 @@
                 }
 
                 try {
-                    const response = await fetch('http://localhost:5000/api/auth/signup', {
+                    const response = await fetch('/api/auth/signup', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ name, email, password })
@@ -95,6 +95,7 @@
                         localStorage.setItem('nutriUserId', data.user._id);
                         localStorage.setItem('nutriUserName', data.user.name);
                         localStorage.setItem('nutriUserEmail', data.user.email);
+                        localStorage.setItem('nutriSetupComplete', 'false');
                         localStorage.setItem('nutriLoggedIn', 'true');
 
                         showMessage('Account created successfully! Redirecting...', 'success');
