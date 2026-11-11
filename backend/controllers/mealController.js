@@ -8,6 +8,7 @@ exports.logMeal = async (req, res) => {
         const finalQty = qty === undefined ? 1 : qty;
         const finalProtein = protein === undefined ? 0 : protein;
         const finalCategory = category === undefined ? 'Snack' : category;
+        
 
         if (
             typeof name !== 'string' ||
